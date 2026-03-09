@@ -1,0 +1,11 @@
+# Python cache files
+__pycache__/
+
+# Large audio files and generated datasets
+*.wav
+
+# Generated test outputs folder
+notebook_tests/
+
+# Generated model weights (προαιρετικά: αν σκοπεύεις να το κάνεις push στο GitHub για να το έχεις έτοιμο για τη C++, αφαίρεσε αυτή τη γραμμή)
+model_weights.json
