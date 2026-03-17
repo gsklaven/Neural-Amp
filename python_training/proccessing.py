@@ -1,42 +1,45 @@
 import numpy as np
 import librosa
 import soundfile as sf
-from pedalboard import Pedalboard, Distortion, Gain
+from pedalboard import Pedalboard, Distortion
+from pathlib import Path
 
 def process_audio(input_file, dry_output_file, wet_output_file):
-    # File path
-    input_file = "13_ElecGtr03DI.wav"
+    # Resolve path relative to the script's directory
+    script_dir = Path(__file__).parent
+    input_path = script_dir / input_file
 
-    # Load the audio (set sr=44100 to have a constant sample rate)
-    audio, sr = librosa.load(input_file, sr=44100, mono=True)
+    if not input_path.exists():
+        raise FileNotFoundError(
+            f"Audio file not found: {input_path}\n"
+            f"Make sure '{input_file}' is in: {script_dir}"
+        )
 
-    # Calculate duration in seconds
+    # Load the audio
+    audio, sr = librosa.load(str(input_path), sr=44100, mono=True)
+
     duration = len(audio) / sr
     print(f"Duration of the sound file: {duration:.2f} seconds")
 
-    # Find the segments with audio (returns start-end intervals)
+    # Remove silence
     non_silent_intervals = librosa.effects.split(audio, top_db=40)
-
-    # Concatenate these segments into a new, condensed signal
     audio_condensed = np.concatenate([audio[start:end] for start, end in non_silent_intervals])
 
-    # Calculate the new duration
     new_duration = len(audio_condensed) / sr
     print(f"Duration after removing silence: {new_duration:.2f} seconds")
 
-    # Create a pedalboard with distortion effect
+    # Apply distortion
     board = Pedalboard([Distortion(drive_db=30)])
-
-    # Process the audio through the pedalboard
     wet_audio = board(audio_condensed, sample_rate=sr)
 
-    # Save the processed audio to a new file
-    dry_output_file = "dataset_dry.wav"
-    sf.write(dry_output_file, audio_condensed, sr)
-    print(f"Dry audio saved to: {dry_output_file}")
+    # Save outputs next to the script
+    dry_path  = script_dir / dry_output_file
+    wet_path  = script_dir / wet_output_file
 
-    wet_output_file = "dataset_wet.wav"
-    sf.write(wet_output_file, wet_audio, sr)
-    print(f"Processed audio saved to: {wet_output_file}")
-    
-    return dry_output_file, wet_output_file
+    sf.write(str(dry_path), audio_condensed, sr)
+    print(f"Dry audio saved to: {dry_path}")
+
+    sf.write(str(wet_path), wet_audio, sr)
+    print(f"Wet audio saved to: {wet_path}")
+
+    return str(dry_path), str(wet_path)
