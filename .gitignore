@@ -1,5 +1,37 @@
+# ==================================
+# Visual Studio / IDEs
+# ==================================
+.vs/
+*.user
+*.suo
+*.slnx
+*.tlog
+
+# ==================================
+# CMake & Build Artifacts
+# ==================================
+build/
+juce_plugin/build/
+out/
+bin/
+*.exe
+*.vst3
+*.lib
+*.dll
+
+# ==================================
+# Python & AI Training
+# ==================================
 # Python cache files
 __pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
 
 # Large audio files and generated datasets
 *.wav
@@ -9,3 +41,9 @@ notebook_tests/
 
 # Generated model weights (προαιρετικά: αν σκοπεύεις να το κάνεις push στο GitHub για να το έχεις έτοιμο για τη C++, αφαίρεσε αυτή τη γραμμή)
 model_weights.json
+
+# ==================================
+# OS Files
+# ==================================
+.DS_Store
+Thumbs.db
