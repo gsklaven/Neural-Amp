@@ -1,20 +1,20 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include <RTNeural/RTNeural.h>
+#include "PluginProcessor.h"
 
 class NeuralAmpAudioProcessorEditor : public juce::AudioProcessorEditor
 {
 public:
-    NeuralAmpAudioProcessorEditor (juce::AudioProcessor&);
+    NeuralAmpAudioProcessorEditor (NeuralAmpAudioProcessor&);
     ~NeuralAmpAudioProcessorEditor() override;
-    
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NeuralAmpAudioProcessorEditor)
 
 private:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    NeuralAmpAudioProcessor& audioProcessor; 
     juce::Slider gainKnob;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NeuralAmpAudioProcessorEditor)
 };

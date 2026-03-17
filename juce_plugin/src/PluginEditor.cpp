@@ -1,6 +1,5 @@
-#include <sstream>
+#include "PluginProcessor.h"
 #include "PluginEditor.h"
-
 
 // Constructor
 NeuralAmpAudioProcessorEditor::NeuralAmpAudioProcessorEditor (NeuralAmpAudioProcessor& p)
@@ -23,33 +22,29 @@ NeuralAmpAudioProcessorEditor::NeuralAmpAudioProcessorEditor (NeuralAmpAudioProc
         // Update the gain value in the audio processor when the knob value changes
         audioProcessor.gain.store(gainKnob.getValue());
     };
-};
-
+}
 
 // Destructor
 NeuralAmpAudioProcessorEditor::~NeuralAmpAudioProcessorEditor()
 {
 }
 
-
 // This method is called to resize the components in the editor when the editor itself is resized. 
 // It can be used to set the bounds of the components based on the new size of the editor.
 void NeuralAmpAudioProcessorEditor::resized()
 {
     // Set the bounds of the gain knob
-    gainKnob.setBounds(100, 50, 200, 200);
+    gainKnob.setBounds(100, 80, 200, 150);
 }
 
 // This method is called to paint the editor. It can be used to draw custom graphics on the editor.
 void NeuralAmpAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // Fill the background with a solid color
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
+    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   
     // Set the color and font for the text
     g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
+    g.setFont (24.0f);
 
     // Draw some text in the editor
-    g.drawFittedText ("Neural Amp Plugin", getLocalBounds(), juce::Justification::centred, 1);
-}
+    g.drawFittedText ("Neural Amp Plugin", 0, 20, getWidth(), 40, juce::Justification::centred, 1);}
