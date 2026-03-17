@@ -31,9 +31,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    // Public parameter for gain, accessible by the editor.
+    // Using std::atomic to ensure thread safety between the message thread (UI) and audio thread.
     std::atomic<float> gain { 1.0f };
     
 private:
+    // RTNeural models for stereo processing (one per channel)
     std::unique_ptr<RTNeural::Model<float>> model0;
     std::unique_ptr<RTNeural::Model<float>> model1;
 
