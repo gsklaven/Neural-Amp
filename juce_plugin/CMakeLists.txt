@@ -27,6 +27,11 @@ juce_add_plugin(NeuralAmp
     PLUGIN_CODE "Namp"              
 )
 
+juce_add_binary_data(NeuralAmpData
+    SOURCES
+        ../python_training/model_weights.json
+)
+
 target_sources(NeuralAmp PRIVATE
     ./src/PluginProcessor.cpp
     ./src/PluginEditor.cpp
@@ -35,3 +40,4 @@ target_sources(NeuralAmp PRIVATE
 )
 
 target_compile_features(NeuralAmp PRIVATE cxx_std_20)
+target_link_libraries(NeuralAmp PRIVATE juce::juce_core juce::juce_audio_processors RTNeural::RTNeural NeuralAmpData)
